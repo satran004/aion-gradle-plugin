@@ -1,37 +1,72 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.61'
-//    id 'com.gradle.plugin-publish' version '0.9.7'
-    id 'java-gradle-plugin'
-    id 'maven-publish'
+    id "com.gradle.plugin-publish" version "0.10.0"
+    id "java-gradle-plugin"
+    id 'com.jfrog.bintray' version '1.8.4'
+    id 'java'
+    id 'groovy'
+
+    id 'idea'
 }
 
-dependencies {
-    compileOnly gradleApi()
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.61'
-
-    //implementation 'com.github.kittinunf.fuel:fuel:1.15.0'
-
-    compile 'de.undercouch:gradle-download-task:3.4.3'
-
-    testCompileOnly gradleTestKit()
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.assertj:assertj-core:3.6.2'
-}
-
-repositories {
-    jcenter()
-    mavenCentral()
-    mavenLocal()
-}
-
-group = "org.satran.blockchain.gradle"
-//version = 0.0.1
+group = 'org.satran.aion'
+version = '0.0.1'
+description = 'Aion Solidity Plugin'
+sourceCompatibility = 1.8
 
 gradlePlugin {
     plugins {
-        AionPlugin {
-            id = 'org.satran.blockchain.gradle.aion'
-            implementationClass = 'org.satran.blockchain.gradle.AionGradlePlugin'
+        solidity {
+            id = 'org.satran.aion.solidity'
+            implementationClass = 'org.satran.aion.solidity.plugin.SolidityPlugin'
         }
     }
+}
+
+pluginBundle {
+//    website = 'https://aion.network/'
+    vcsUrl = 'https://github.com/satran/aion-solidity-plugin'
+    description = 'Gradle plugin providing tasks to compile Solidity contracts for Aion blockchain.'
+    tags = ['solidity', 'aion']
+    plugins {
+        solidity {
+            // id is captured from java-gradle-plugin configuration
+            displayName = project.description
+        }
+    }
+}
+
+jacoco {
+    toolVersion = '0.8.1' // See http://www.eclemma.org/jacoco/.
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+    }
+}
+
+ext {
+    junitVersion = '4.12'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile "junit:junit:$junitVersion"
+}
+
+tasks.withType(Test) {
+    reports.html.destination file("${reporting.baseDir}/${project.name}")
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
