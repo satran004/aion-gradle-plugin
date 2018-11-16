@@ -34,6 +34,15 @@ class SolidityCompile extends SourceTask {
 
     @TaskAction
     void compileSolidity() {
+
+        String cwd = System.getProperty("user.dir");
+
+        println("Current working directory: " + cwd)
+
+        String COMPILE_CMD = "docker run --rm -v \"$cwd:/src\" satran004/aion-fastvm:0.3.1 solc"
+
+        println(COMPILE_CMD)
+
         for (File contract in source) {
             def options = []
 
@@ -64,7 +73,7 @@ class SolidityCompile extends SourceTask {
             options.add(contract.absolutePath)
 
             project.exec {
-                executable = 'solc'
+                executable = COMPILE_CMD
                 args = options
             }
         }

@@ -35,15 +35,15 @@ pluginBundle {
     }
 }
 
-jacoco {
-    toolVersion = '0.8.1' // See http://www.eclemma.org/jacoco/.
-}
+//jacoco {
+//    toolVersion = '0.8.1' // See http://www.eclemma.org/jacoco/.
+//}
 
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-    }
-}
+//jacocoTestReport {
+//    reports {
+//        xml.enabled = true
+//    }
+//}
 
 ext {
     junitVersion = '4.12'

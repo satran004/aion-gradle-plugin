@@ -11,7 +11,6 @@ import org.gradle.api.tasks.SourceSetContainer
 import javax.inject.Inject
 
 import static org.codehaus.groovy.runtime.StringGroovyMethods.capitalize
-import static org.web3j.solidity.gradle.plugin.SoliditySourceSet.NAME
 
 /**
  * Originally from https://github.com/web3j/solidity-gradle-plugin project
@@ -23,6 +22,8 @@ import static org.web3j.solidity.gradle.plugin.SoliditySourceSet.NAME
 class SolidityPlugin implements Plugin<Project> {
 
     private final SourceDirectorySetFactory sourceFactory
+
+    private final static String NAME = "solidity"
 
     @Inject
     SolidityPlugin(final SourceDirectorySetFactory sourceFactory) {
